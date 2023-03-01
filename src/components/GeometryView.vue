@@ -11,7 +11,8 @@ import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 // Property coming from parent component
-const props = defineProps(["size"]);
+const props = defineProps(["heightGeo","widthGeo", "lengthGeo", "opacityGeo"]);
+//console.log(props.heightGeo,props.lengthGeo, props.widthGeo)
 
 // Three js objects
 let renderer, camera, scene, controls, geometry;
@@ -28,7 +29,7 @@ function init() {
 
   // camera
   camera = new THREE.PerspectiveCamera(75, width / heigh, 0.1, 1000);
-  camera.position.set(0, 0, 40);
+  camera.position.set(40, 40, 40);
 
   // scene
   scene = new THREE.Scene();
@@ -50,15 +51,19 @@ function animate() {
 }
 
 function createBox(l, w, h) {
-  geometry = new THREE.BoxGeometry(l, w, h);
-  const material = new THREE.MeshNormalMaterial();
+  geometry = new THREE.CapsuleGeometry(l, w, h);
+  const material = new THREE.MeshNormalMaterial({
+    transparent:props.opacityGeo,
+    opacity:0.1
+  });
+
   const sphere = new THREE.Mesh(geometry, material);
   scene.add(sphere);
 }
 
 function onSliderChange(color) {
   scene.clear();
-  createBox(props.size, props.size, props.size);
+  createBox(props.heightGeo, props.widthGeo, props.lengthGeo);
 }
 
 // This function runs at the beginning of the component lifecycle.

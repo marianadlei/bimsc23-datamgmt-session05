@@ -3,6 +3,8 @@ to define variables, methods and imports of other Vue compoennts. -->
 <script setup>
 // Import other Vue components in order to add them to a template.
 import ButtonCount from "./components/ButtonCount.vue";
+
+
 import SliderInput from "./components/SliderInput.vue";
 import ToggleInput from "./components/ToggleInput.vue";
 import GeometryView from "./components/GeometryView.vue";
@@ -16,8 +18,11 @@ import { ref } from "vue";
 
 // Define variables and constants
 var count = ref(0);
-var firstSlider = ref(25);
+var slider1 = ref(25);
+var slider2 = ref(25);
+var slider3 = ref(25);
 var runToggle = ref(false);
+
 
 var button1 = "Data1"
 var button2 = "Data2"
@@ -28,7 +33,7 @@ var totalCount = ref(0)
 
 function bringCount(countFromChild){
 
-  totalCount.value += countFromChild
+  totalCount.value = totalCount.value +1 
 
   console.log(totalCount.value)
 
@@ -44,12 +49,22 @@ function increment() {
 
 function updateValue(newValue, parameterName) {
   if (parameterName === "Height") {
-    firstSlider.value = newValue;
+    slider1.value = newValue;
+    console.log(newValue)
+  }
+  if (parameterName === "Width") {
+    slider2.value = newValue;
+    console.log(newValue)
+  }
+  if (parameterName === "Length") {
+    slider3.value = newValue;
+    console.log(newValue)
   }
 }
 
 function updateToggle(newValue) {
   runToggle.value = newValue;
+ 
 }
 </script>
 
@@ -66,10 +81,10 @@ with data, objects, functions etc. -->
 
   <div>
 
-    <ButtonCount v-bind:title = "button1" v-on:sendCount="bringCount"/>
-    <ButtonCount v-bind:title = "button2" v-on:sendCount="bringCount"/>
-    <ButtonCount v-bind:title = "button3" v-on:sendCount="bringCount"/>
-    <ButtonCount v-bind:title = "button4" v-on:sendCount="bringCount"/>
+    <ButtonCount v-bind:title = "button1" v-on:updateCount="bringCount"/>
+    <ButtonCount v-bind:title = "button2" v-on:updateCount="bringCount"/>
+    <ButtonCount v-bind:title = "button3" v-on:updateCount="bringCount"/>
+    <ButtonCount v-bind:title = "button4" v-on:updateCount="bringCount"/>
 
   </div>
 
@@ -91,15 +106,31 @@ with data, objects, functions etc. -->
       <SliderInput title="Height"
         v-bind:min="1" v-bind:max="50" v-bind:step="1"
         v-on:updateValue="updateValue"/>
+        
+      <SliderInput title="Width"
+        v-bind:min="1" v-bind:max="50" v-bind:step="1"
+        v-on:updateValue="updateValue"/>
 
-      <ToggleInput title="Run?" v-on:updateValue="updateToggle"></ToggleInput>
+      <SliderInput title="Length"
+        v-bind:min="1" v-bind:max="50" v-bind:step="1"
+        v-on:updateValue="updateValue"/>
 
-      <h2>Value received in App.vue: {{ firstSlider }}</h2>
+
+
+      <ToggleInput title="Opacity" v-on:updateValue="updateToggle"></ToggleInput>
+      
+      <h2>Height: {{ slider1 }}</h2>
+      <h2>Width: {{ slider2 }}</h2>
+      <h2>Length: {{ slider3 }}</h2>
       <h2>Value received in App.vue: {{ runToggle }}</h2>
     </div>
 
     <div id="content">
-      <GeometryView :size="firstSlider" />
+      <GeometryView :heightGeo="slider1" :widthGeo="slider2" :lengthGeo="slider3" :opacityGeo=" runToggle" />
+      
+    
+    
+
 
       <!-- uncomment to add another geometryview -->
       <!-- <GeometryView :size="firstSlider"/> -->

@@ -13,10 +13,9 @@ import { ref } from "vue";
 // Define variables and constants
 var count = ref(0);
 
+//props
 const props = defineProps ([ 'title' ])
-
 var titleFromParent = props.title
-
 console.log(props.title)
 
 
@@ -41,7 +40,8 @@ with data, objects, functions etc. -->
   
   <div id="content">
     <button @click="increment">{{ titleFromParent }}</button>
-    <P>Count is: {{ count }}</P>
+    <p>Count is: {{ count }}</p>
+
   </div>
 
 
